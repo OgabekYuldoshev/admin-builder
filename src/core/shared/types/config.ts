@@ -35,7 +35,10 @@ export type AppConfig = {
 	auth: {
 		login: {
 			url: string;
-			responseValidation: ZodSchema;
+			response?: {
+				validationSchema?: ZodSchema;
+				transform?: (data: any) => any;
+			};
 		};
 	};
 	entities: {
