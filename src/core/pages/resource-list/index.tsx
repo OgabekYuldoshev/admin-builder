@@ -3,6 +3,7 @@ import {
   Container,
   Flex,
   Group,
+  Space,
   Stack,
   Text,
   Title,
@@ -38,6 +39,7 @@ export function TemplateListPage() {
           </Button>
         </Group>
       </Flex>
+      <Space h="md" />
       <ResourceList {...{ resourceConfig, resourceName }} />
     </Container>
   );

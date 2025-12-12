@@ -72,7 +72,7 @@ export type AppConfig = {
 			description?: string;
 			api: ApiConfig;
 			list: {
-				columns?: ColumnConfig;
+				columns: ColumnConfig[];
 			};
 			fields: FieldConfig;
 		};

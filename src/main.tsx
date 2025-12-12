@@ -53,7 +53,30 @@ const appConfig: AppConfig = {
           url: "/posts/:id",
         },
       },
-      list: {},
+      list: {
+        columns: [
+          {
+            id: "id",
+            header: "ID",
+            accessorKey: "id",
+          },
+          {
+            id: "title",
+            header: "Sarlavha",
+            accessorKey: "title",
+          },
+          {
+            id: "views",
+            header: "Ko'rishlar soni",
+            accessorKey: "views",
+          },
+          {
+            id: "tags",
+            header: "Teglar",
+            accessorFn: ({ tags }) => tags.join(", "),
+          },
+        ],
+      },
       fields: {},
     },
   },
