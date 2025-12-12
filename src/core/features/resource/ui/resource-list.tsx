@@ -1,4 +1,5 @@
-import type { ResourceConfig } from "../../../shared";
+import { type ResourceConfig, useDataTable } from "../../../shared";
+import { DataTable } from "../../../widgets/data-table";
 import { useResourceList } from "../hooks";
 
 interface ResourceListProps {
@@ -16,6 +17,17 @@ export function ResourceList({
       resourceConfig,
     },
   });
-  console.log(items);
-  return <div>ResourceList</div>;
+
+  const table = useDataTable({
+    data: items,
+    columns: [
+      {
+        id: "id",
+        header: "ID",
+        accessorKey: "id",
+      },
+    ],
+  });
+
+  return <DataTable table={table} />;
 }

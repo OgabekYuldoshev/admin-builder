@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 
 import { withMantine } from "./with-mantine";
+import { withNuqs } from "./with-nuqs";
 import { withQuery } from "./with-query";
 
 function composeProviders<T extends ComponentType<any>>(
@@ -14,4 +15,4 @@ function composeProviders<T extends ComponentType<any>>(
 	};
 }
 
-export const withProviders = composeProviders(withMantine, withQuery);
+export const withProviders = composeProviders(withNuqs, withMantine, withQuery);
