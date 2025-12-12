@@ -53,6 +53,15 @@ export function createRouter() {
         },
       ],
     },
+    {
+      path: "login",
+      async lazy() {
+        const { LoginPage } = await importFromPages();
+        return {
+          Component: LoginPage,
+        };
+      },
+    },
   ];
 
   return {

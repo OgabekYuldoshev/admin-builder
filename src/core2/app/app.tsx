@@ -1,11 +1,12 @@
 import "@mantine/core/styles.css";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { withProviders } from "./providers";
 import { createAppState } from "../lib/create-app-state";
 import { AppStateProvider } from "../lib/create-app-state";
 import type { AppConfig } from "../types";
 import { RouterProvider } from "react-router";
+import { SplashScreen } from "../components";
 
 interface AppProps {
   config: AppConfig;
@@ -16,7 +17,9 @@ function BaseApp({ config }: AppProps) {
 
   return (
     <AppStateProvider value={appState}>
-      <RouterProvider router={appState.router} />
+      <Suspense fallback={<SplashScreen />}>
+        <RouterProvider router={appState.router} />
+      </Suspense>
     </AppStateProvider>
   );
 }
