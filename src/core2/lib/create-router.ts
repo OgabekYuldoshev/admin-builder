@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router";
 import { createBrowserRouter } from "react-router";
-import { AppLayout } from "../components/app-layout";
+import { AppLayout } from "../components";
 
 export function createRouter() {
   const importFromPages = () => import("../pages");
