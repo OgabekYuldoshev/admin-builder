@@ -3,18 +3,38 @@ import type { ZodSchema } from "zod";
 
 type BasicApiConfig = {
 	url: string;
-	response?: {
-		validationSchema: ZodSchema;
-		transform?: (data: any) => any;
+};
+
+type ListApiConfig = BasicApiConfig & {
+	responseTransform?: (data: any) => {
+		items: any[];
+		total: number;
+		limit: number;
 	};
 };
 
+type SingleApiConfig = BasicApiConfig & {
+	responseTransform?: (data: any) => any;
+};
+
+type CreateApiConfig = BasicApiConfig & {
+	requestTransform?: (data: any) => any;
+};
+
+type UpdateApiConfig = BasicApiConfig & {
+	requestTransform?: (data: any) => any;
+};
+
+type DeleteApiConfig = BasicApiConfig & {
+	requestTransform?: (data: any) => any;
+};
+
 type ApiConfig = {
-	list: BasicApiConfig;
-	create: BasicApiConfig;
-	update: BasicApiConfig;
-	delete: BasicApiConfig;
-	single: BasicApiConfig;
+	list: ListApiConfig;
+	create: CreateApiConfig;
+	update: UpdateApiConfig;
+	delete: DeleteApiConfig;
+	single: SingleApiConfig;
 };
 
 type ColumnConfig = ColumnDef<any>;
@@ -35,10 +55,14 @@ export type AppConfig = {
 	auth: {
 		login: {
 			url: string;
-			response?: {
-				validationSchema?: ZodSchema;
-				transform?: (data: any) => any;
+			responseTransform?: (data: any) => {
+				accessToken: string;
+				refreshToken: string;
 			};
+		};
+		user: {
+			url: string;
+			responseTransform?: (data: any) => any;
 		};
 	};
 	entities: {
@@ -46,7 +70,7 @@ export type AppConfig = {
 			label: string;
 			api: ApiConfig;
 			list: {
-				columns: ColumnConfig;
+				columns?: ColumnConfig;
 			};
 			fields: FieldConfig;
 		};

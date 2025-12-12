@@ -18,12 +18,38 @@ const appConfig: AppConfig = {
   auth: {
     login: {
       url: "/auth/login",
-      response: {
-        validationSchema: loginResponseValidationSchema,
+      responseTransform: (data) => {
+        return loginResponseValidationSchema.parse(data);
       },
     },
+    user: {
+      url: "/auth/me",
+    },
   },
-  entities: {},
+  entities: {
+    posts: {
+      label: "Posts",
+      api: {
+        list: {
+          url: "/posts",
+        },
+        create: {
+          url: "/posts",
+        },
+        update: {
+          url: "/posts/:id",
+        },
+        delete: {
+          url: "/posts/:id",
+        },
+        single: {
+          url: "/posts/:id",
+        },
+      },
+      list: {},
+      fields: {},
+    },
+  },
 };
 
 createRoot(document.getElementById("root") as HTMLElement).render(
