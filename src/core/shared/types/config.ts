@@ -27,7 +27,7 @@ type BaseFieldConfig = {
 
 type FieldConfig = Record<string, BaseFieldConfig>;
 
-export type Config = {
+export type AppConfig = {
 	api: {
 		baseUrl: string;
 		headers?: Record<string, string>;
