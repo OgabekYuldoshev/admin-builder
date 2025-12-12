@@ -79,6 +79,58 @@ const appConfig: AppConfig = {
       },
       fields: {},
     },
+    comments: {
+      label: "Comments",
+      api: {
+        list: {
+          url: "/comments",
+          responseTransform: (data) => {
+            return {
+              items: data.comments,
+              total: data.total,
+              limit: data.limit,
+            };
+          },
+        },
+        create: {
+          url: "/comments",
+        },
+        update: {
+          url: "/comments/:id",
+        },
+        delete: {
+          url: "/comments/:id",
+        },
+        single: {
+          url: "/comments/:id",
+        },
+      },
+      list: {
+        columns: [
+          {
+            id: "id",
+            header: "ID",
+            accessorKey: "id",
+          },
+          {
+            id: "user",
+            header: "Foydalanuvchi",
+            accessorKey: "user.fullName",
+          },
+          {
+            id: "body",
+            header: "Matn",
+            accessorKey: "body",
+          },
+          {
+            id: "likes",
+            header: "Like",
+            accessorKey: "likes",
+          },
+        ],
+      },
+      fields: {},
+    },
   },
 };
 
