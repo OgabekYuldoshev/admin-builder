@@ -31,11 +31,12 @@ export function createResourceRegistry({ apiClient }: ResourceRegistryProps) {
 
     return {
       // List resources endpoint
-      async list() {
+      async list({ params }) {
         const { url, method = "GET", responseTransform } = apiConfig.list;
         const { data } = await apiClient.request({
           url,
           method,
+          params,
         });
 
         if (responseTransform) {
@@ -101,6 +102,7 @@ export function createResourceRegistry({ apiClient }: ResourceRegistryProps) {
   function register(resourceKey: string, resourceConfig: ResourceConfig) {
     const resourceApi = buildResourceApi(resourceConfig);
     const resource = {
+      key: resourceKey,
       config: resourceConfig,
       api: resourceApi,
     };
