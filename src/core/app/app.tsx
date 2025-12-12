@@ -1,11 +1,12 @@
 import "@mantine/core/styles.css";
 
-import { RouterProvider } from "react-router";
-import { AppStateProvider, createAppState, type AppConfig } from "../shared";
-import { ConfigProvider } from "../shared/lib/create-config-provider";
+import { Suspense, useState } from "react";
 import { withProviders } from "./providers";
-import { appRouter } from "./router";
-import { useState } from "react";
+import { createAppState } from "../lib/create-app-state";
+import { AppStateProvider } from "../lib/create-app-state";
+import type { AppConfig } from "../types";
+import { RouterProvider } from "react-router";
+import { SplashScreen } from "../components";
 
 interface AppProps {
   config: AppConfig;
@@ -13,11 +14,12 @@ interface AppProps {
 
 function BaseApp({ config }: AppProps) {
   const [appState] = useState(() => createAppState(config));
+
   return (
     <AppStateProvider value={appState}>
-      <ConfigProvider value={{ config }}>
-        <RouterProvider router={appRouter} />
-      </ConfigProvider>
+      <Suspense fallback={<SplashScreen />}>
+        <RouterProvider router={appState.router} />
+      </Suspense>
     </AppStateProvider>
   );
 }

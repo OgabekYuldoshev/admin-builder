@@ -1,5 +1,4 @@
 import { Flex, Paper, Space, Text, Title } from "@mantine/core";
-import { LoginForm } from "../../features";
 
 export function LoginPage() {
   return (
@@ -13,7 +12,7 @@ export function LoginPage() {
         </Text>
         <Space h="lg" />
         <Paper withBorder shadow="md" p="xl" radius="md" w={400}>
-          <LoginForm />
+          LoginPage
         </Paper>
       </Flex>
     </Flex>

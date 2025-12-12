@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import z from "zod";
-import { App, type AppConfig } from "./core2";
+import { App, type AppConfig } from "./core";
 
 const loginResponseValidationSchema = z.object({
   accessToken: z.string(),
