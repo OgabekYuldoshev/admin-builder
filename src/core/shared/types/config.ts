@@ -3,6 +3,7 @@ import type { ZodSchema } from "zod";
 
 type BasicApiConfig = {
 	url: string;
+	method?: "GET" | "POST" | "PUT" | "DELETE";
 };
 
 type ListApiConfig = BasicApiConfig & {
@@ -65,9 +66,10 @@ export type AppConfig = {
 			responseTransform?: (data: any) => any;
 		};
 	};
-	entities: {
+	resources: {
 		[key: string]: {
 			label: string;
+			description?: string;
 			api: ApiConfig;
 			list: {
 				columns?: ColumnConfig;
@@ -76,3 +78,5 @@ export type AppConfig = {
 		};
 	};
 };
+
+export type ResourceConfig = AppConfig["resources"][number];

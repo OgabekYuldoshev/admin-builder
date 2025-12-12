@@ -1,6 +1,6 @@
 import { useConfigContext } from "../lib/create-config-provider";
 
-export function useEntitiesConfig() {
+export function useResourcesConfig() {
 	const { config } = useConfigContext();
-	return config.entities;
+	return config.resources;
 }

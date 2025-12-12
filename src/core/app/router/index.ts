@@ -19,7 +19,7 @@ export const appRouter = createBrowserRouter([
 				},
 			},
 			{
-				path: ":entityName",
+				path: ":resourceName",
 				children: [
 					{
 						index: true,

@@ -26,12 +26,19 @@ const appConfig: AppConfig = {
       url: "/auth/me",
     },
   },
-  entities: {
+  resources: {
     posts: {
       label: "Posts",
       api: {
         list: {
           url: "/posts",
+          responseTransform: (data) => {
+            return {
+              items: data.posts,
+              total: data.total,
+              limit: data.limit,
+            };
+          },
         },
         create: {
           url: "/posts",
