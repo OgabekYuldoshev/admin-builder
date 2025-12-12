@@ -4,6 +4,7 @@ import { LIST_SIZES } from "../../constants";
 import { NoRecord } from "./ui";
 import { getCommonPinningStyles } from "./utils/get-common-pinning-styles";
 
+
 export interface DataTableProps<TData> {
   table: TanstackTable<TData>;
 }

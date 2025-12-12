@@ -1,9 +1,11 @@
 import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Outlet } from "react-router";
+import { Sidebar } from "../sidebar";
 
 export function AppLayout() {
   const [opened, { toggle }] = useDisclosure();
+
   return (
     <AppShell
       header={{ height: 60 }}
@@ -17,9 +19,7 @@ export function AppLayout() {
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        Navbar is collapsed on mobile at sm breakpoint. At that point it is no
-        longer offset by padding in the main element and it takes the full width
-        of the screen when opened.
+        <Sidebar />
       </AppShell.Navbar>
       <AppShell.Main>
         <Outlet />

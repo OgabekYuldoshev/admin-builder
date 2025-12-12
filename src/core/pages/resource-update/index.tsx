@@ -1,3 +1,8 @@
+import {SplashScreen} from '../../widgets'
+
 export function TemplateUpdatePage() {
-  return <div>EntityUpdatePage</div>;
+  return <div>EntityUpdatePage
+
+    <SplashScreen/>
+  </div>;
 }
