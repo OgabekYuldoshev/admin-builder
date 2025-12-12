@@ -18,6 +18,41 @@ export const appRouter = createBrowserRouter([
 					};
 				},
 			},
+			{
+				path: ":entityName",
+				children: [
+					{
+						index: true,
+						async lazy() {
+							const { TemplateListPage } = await importFromPages();
+
+							return {
+								Component: TemplateListPage,
+							};
+						},
+					},
+					{
+						path: "create",
+						async lazy() {
+							const { TemplateCreatePage } = await importFromPages();
+
+							return {
+								Component: TemplateCreatePage,
+							};
+						},
+					},
+					{
+						path: ":id/update",
+						async lazy() {
+							const { TemplateUpdatePage } = await importFromPages();
+
+							return {
+								Component: TemplateUpdatePage,
+							};
+						},
+					},
+				],
+			},
 		],
 	},
 	{
