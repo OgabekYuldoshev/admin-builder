@@ -99,6 +99,10 @@ export function createResourceRegistry({ apiClient }: ResourceRegistryProps) {
     };
   }
 
+  function buildResourceForm(resourceConfig: ResourceConfig){
+    
+  }
+
   function register(resourceKey: string, resourceConfig: ResourceConfig) {
     const resourceApi = buildResourceApi(resourceConfig);
     const resource = {

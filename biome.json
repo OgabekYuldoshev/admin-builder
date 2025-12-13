@@ -19,6 +19,9 @@
 			"suspicious": {
 				"noExplicitAny": "off"
 			},
+			"correctness": {
+				"useExhaustiveDependencies": "off"
+			},
 			"style": {
 				"noDefaultExport": "error"
 			}

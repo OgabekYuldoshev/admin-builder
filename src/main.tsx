@@ -79,6 +79,20 @@ const appConfig: AppConfig = {
           },
         ],
       },
+      form: {
+        fields: {
+          title: {
+            label: "Sarlavha",
+            type: "text",
+            validationSchema: z.string().min(1),
+          },
+          userId: {
+            label: "Foydalanuvchi ID",
+            type: "number",
+            validationSchema: z.number().min(1),
+          },
+        },
+      },
     },
     comments: {
       metaData: {
@@ -131,6 +145,25 @@ const appConfig: AppConfig = {
             accessorKey: "likes",
           },
         ],
+      },
+      form: {
+        fields: {
+          body: {
+            label: "Matn",
+            type: "textarea",
+            validationSchema: z.string().min(1),
+          },
+          postId: {
+            label: "Post ID",
+            type: "number",
+            validationSchema: z.number().min(1),
+          },
+          userId: {
+            label: "Foydalanuvchi ID",
+            type: "number",
+            validationSchema: z.number().min(1),
+          },
+        },
       },
     },
   },
