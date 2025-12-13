@@ -21,7 +21,7 @@ export function AppLayout() {
       <AppShell.Navbar p="md">
         <Sidebar />
       </AppShell.Navbar>
-      <AppShell.Main>
+      <AppShell.Main bg="gray.1">
         <Outlet />
       </AppShell.Main>
     </AppShell>

@@ -7,8 +7,8 @@ export interface Resource {
   config: ResourceConfig;
   api: {
     list(value: { params: ListParams }): Promise<ResourceListResponse>;
-    create(data: any): Promise<any>;
-    update(id: string, data: any): Promise<any>;
+    create<TData>(data: TData): Promise<any>;
+    update<TData>(id: string, data: TData): Promise<any>;
     delete(id: string): Promise<any>;
     single(id: string): Promise<any>;
   };
