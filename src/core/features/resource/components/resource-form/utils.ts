@@ -85,8 +85,19 @@ export function getVisibleFields(
   );
 }
 
+const fieldRequiredCache = new WeakMap<ResourceFieldConfig, boolean>();
+
 export function isFieldRequired(field: ResourceFieldConfig): boolean {
-  return !field.validationSchema.isOptional();
+  if (fieldRequiredCache.has(field)) {
+    return fieldRequiredCache.get(field)!;
+  }
+
+  const result = field.validationSchema.safeParse(undefined);
+  const isRequired = !result.success;
+
+  fieldRequiredCache.set(field, isRequired);
+
+  return isRequired;
 }
 
 export function getFieldDescription(
