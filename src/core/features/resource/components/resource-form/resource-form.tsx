@@ -1,4 +1,3 @@
-// src/core/features/resource/components/resource-form/resource-form.tsx
 import { useCallback, useMemo, useEffect } from "react";
 import { useForm } from "@mantine/form";
 import { zod4Resolver } from "mantine-form-zod-resolver";
@@ -26,19 +25,16 @@ export function ResourceForm({
 }: ResourceFormProps) {
   const fields = resource.config.form.fields;
 
-  // Build validation schema from field configs
   const validationSchema = useMemo(
     () => buildValidationSchema(fields),
     [fields]
   );
 
-  // Get initial form values
   const formInitialValues = useMemo(
     () => getInitialValues(fields, initialValues),
     [fields, initialValues]
   );
 
-  // Initialize Mantine form
   const form = useForm({
     mode: "controlled",
     initialValues: formInitialValues,
@@ -47,30 +43,24 @@ export function ResourceForm({
     validateInputOnBlur: true,
   });
 
-  // Update form when initialValues change (important for edit mode)
   useEffect(() => {
     if (initialValues && mode === "update") {
       form.setValues(getInitialValues(fields, initialValues));
     }
   }, [initialValues, mode, fields]);
 
-  // Get visible fields based on current form state
   const visibleFields = useMemo(
     () => getVisibleFields(fields, form.values),
     [fields, form.values]
   );
 
-  // Handle form submission
   const handleSubmit = useCallback(
     async (values: Record<string, any>) => {
       try {
-        // Transform values before submission
         const transformedValues = transformFormValues(values, fields);
 
-        // Call onSubmit callback
         await onSubmit?.(transformedValues);
 
-        // Reset form after successful creation
         if (mode === "create") {
           form.reset();
         }
@@ -82,7 +72,6 @@ export function ResourceForm({
     [onSubmit, onError, fields, mode, form]
   );
 
-  // Render form errors
   const renderFormErrors = useCallback(() => {
     if (!form.errors || Object.keys(form.errors).length === 0) {
       return null;
@@ -106,7 +95,6 @@ export function ResourceForm({
     );
   }, [form.errors, fields]);
 
-  // Render form fields
   const renderFields = useCallback(() => {
     return visibleFields.map(([fieldKey, field]) =>
       renderField({
@@ -118,7 +106,6 @@ export function ResourceForm({
     );
   }, [visibleFields, form, isLoading]);
 
-  // Render form actions
   const renderActions = useCallback(() => {
     if (!showActions) return null;
 

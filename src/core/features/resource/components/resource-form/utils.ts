@@ -20,13 +20,11 @@ export function getInitialValues(
   const values: Record<string, any> = {};
 
   for (const [key, field] of Object.entries(fields)) {
-    // Priority: providedValues > field.defaultValue > type default
     if (providedValues && key in providedValues) {
       values[key] = providedValues[key];
     } else if ("defaultValue" in field && field.defaultValue !== undefined) {
       values[key] = field.defaultValue;
     } else {
-      // Set appropriate empty values based on type
       values[key] = getTypeDefaultValue(field.type);
     }
   }
@@ -37,7 +35,7 @@ export function getInitialValues(
 export function getTypeDefaultValue(fieldType: string): any {
   switch (fieldType) {
     case "number":
-      return 0;
+      return null;
     case "switch":
       return false;
     case "select":

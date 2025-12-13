@@ -1,4 +1,4 @@
-// src/core/features/resource/components/resource-form/field-renderers.tsx
+
 import {
   TextInput,
   NumberInput,
