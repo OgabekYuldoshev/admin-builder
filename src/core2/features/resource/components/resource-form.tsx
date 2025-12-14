@@ -27,6 +27,7 @@ export function ResourceForm({ resource }: ResourceFormProps) {
     validateInputOnBlur: true,
     validateInputOnChange: true,
   });
+  
   return (
     <Stack>
       {Object.entries(resource.config.form.fields).map(([key, field]) => (
