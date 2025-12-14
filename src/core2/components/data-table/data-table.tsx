@@ -1,4 +1,4 @@
-import { Flex, Pagination, Paper, Select, Table } from "@mantine/core";
+import { Flex, Pagination, Select, Table } from "@mantine/core";
 import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
 import { getCommonPinningStyles } from "./get-common-pinning-styles";
 import { Empty } from "../empty";
@@ -10,9 +10,9 @@ export interface DataTableProps<TData> {
 
 export function DataTable<TData>({ table }: DataTableProps<TData>) {
   return (
-    <Paper withBorder shadow="sm" p="lg" radius="md">
+    <>
       <Table.ScrollContainer minWidth={500} pb={0}>
-        <Table highlightOnHover withTableBorder withColumnBorders>
+        <Table bg="white" highlightOnHover withTableBorder withColumnBorders>
           <Table.Thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Tr key={headerGroup.id}>
@@ -88,6 +88,6 @@ export function DataTable<TData>({ table }: DataTableProps<TData>) {
           onChange={(value) => table.setPageIndex(value - 1)}
         />
       </Flex>
-    </Paper>
+    </>
   );
 }
