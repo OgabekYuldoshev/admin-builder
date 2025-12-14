@@ -3,109 +3,109 @@ import type { ZodType } from "zod";
 import type { InternalListResponse, InternalSingleResponse } from "./utils";
 
 export type HttpConfig = {
-  baseURL: string;
-  headers?: Record<string, string>;
+	baseURL: string;
+	headers?: Record<string, string>;
 };
 
 export type AuthConfig = {
-  login: {
-    url: string;
-    responseTransform?: (data: any) => any;
-  };
-  user: {
-    url: string;
-    responseTransform?: (data: any) => any;
-  };
+	login: {
+		url: string;
+		responseTransform?: (data: any) => any;
+	};
+	user: {
+		url: string;
+		responseTransform?: (data: any) => any;
+	};
 };
 
 type BaseEndpointConfig = {
-  url: string;
-  method?: "GET" | "POST" | "PUT" | "DELETE";
+	url: string;
+	method?: "GET" | "POST" | "PUT" | "DELETE";
 };
 
 export type EndpointsConfig = {
-  list: BaseEndpointConfig & {
-    responseTransform?: (data: any) => InternalListResponse;
-  };
-  create: BaseEndpointConfig & {
-    requestTransform?: (data: any) => InternalSingleResponse;
-  };
-  update: BaseEndpointConfig & {
-    requestTransform?: (data: any) => InternalSingleResponse;
-  };
-  delete: BaseEndpointConfig & {
-    requestTransform?: (data: any) => InternalSingleResponse;
-  };
-  single: BaseEndpointConfig & {
-    responseTransform?: (data: any) => InternalSingleResponse;
-  };
+	list: BaseEndpointConfig & {
+		responseTransform?: (data: any) => InternalListResponse;
+	};
+	create: BaseEndpointConfig & {
+		requestTransform?: (data: any) => InternalSingleResponse;
+	};
+	update: BaseEndpointConfig & {
+		requestTransform?: (data: any) => InternalSingleResponse;
+	};
+	delete: BaseEndpointConfig & {
+		requestTransform?: (data: any) => InternalSingleResponse;
+	};
+	single: BaseEndpointConfig & {
+		responseTransform?: (data: any) => InternalSingleResponse;
+	};
 };
 
 type BaseFieldConfig = {
-  label: string;
-  validationSchema: ZodType;
-  description?: string;
-  placeholder?: string;
+	label: string;
+	validationSchema: ZodType;
+	description?: string;
+	placeholder?: string;
 };
 
 export interface TextField extends BaseFieldConfig {
-  type: "text";
-  defaultValue?: string;
+	type: "text";
+	defaultValue?: string;
 }
 
 export interface TextAreaField extends BaseFieldConfig {
-  type: "textarea";
-  defaultValue?: string;
-  rows?: number;
+	type: "textarea";
+	defaultValue?: string;
+	rows?: number;
 }
 
 export interface SelectField extends BaseFieldConfig {
-  type: "select";
-  defaultValue?: string;
-  options: { label: string; value: string }[];
+	type: "select";
+	defaultValue?: string;
+	options: { label: string; value: string }[];
 }
 
 export interface NumberField extends BaseFieldConfig {
-  type: "number";
-  defaultValue?: number;
-  min?: number;
-  max?: number;
+	type: "number";
+	defaultValue?: number;
+	min?: number;
+	max?: number;
 }
 
 export interface SwitchField extends BaseFieldConfig {
-  type: "switch";
-  defaultValue?: boolean;
+	type: "switch";
+	defaultValue?: boolean;
 }
 
 export interface DateField extends BaseFieldConfig {
-  type: "date";
-  defaultValue?: Date;
+	type: "date";
+	defaultValue?: Date;
 }
 
 export type FormFieldConfig =
-  | TextField
-  | NumberField
-  | DateField
-  | TextAreaField
-  | SelectField
-  | SwitchField;
+	| TextField
+	| NumberField
+	| DateField
+	| TextAreaField
+	| SelectField
+	| SwitchField;
 
 export type FormFieldType = FormFieldConfig["type"];
 
 export type ResourceConfig = {
-  label: string;
-  description?: string;
-  endpoints: EndpointsConfig;
-  list: {
-    columns: ColumnDef<any>[];
-  };
-  form: {
-    fields: Record<string, FormFieldConfig>;
-  };
+	label: string;
+	description?: string;
+	endpoints: EndpointsConfig;
+	list: {
+		columns: ColumnDef<any>[];
+	};
+	form: {
+		fields: Record<string, FormFieldConfig>;
+	};
 };
 
 export type AppConfig = {
-  http: HttpConfig;
-  auth: AuthConfig;
-  resources: Record<string, ResourceConfig>;
+	http: HttpConfig;
+	auth: AuthConfig;
+	resources: Record<string, ResourceConfig>;
 };

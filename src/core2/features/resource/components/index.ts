@@ -1,2 +1,2 @@
-export * from "./resource-list";
 export * from "./resource-form";
+export * from "./resource-list";
