@@ -12,7 +12,7 @@ export function withMantine<P extends object = object>(
   return function MantineWrapper(props: P) {
     return (
       <MantineProvider theme={theme}>
-        <Notifications />
+        <Notifications position="top-right" withinPortal />
         <Component {...props} />
       </MantineProvider>
     );

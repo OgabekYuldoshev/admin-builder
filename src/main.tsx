@@ -41,7 +41,7 @@ const appConfig: AppConfig = {
           },
         },
         create: {
-          url: "/posts",
+          url: "/posts/add",
         },
         update: {
           url: "/posts/:id",
@@ -106,7 +106,7 @@ const appConfig: AppConfig = {
           },
         },
         create: {
-          url: "/comments",
+          url: "/comments/add",
         },
         update: {
           url: "/comments/:id",

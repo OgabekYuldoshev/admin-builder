@@ -1,6 +1,8 @@
 import { z, ZodType } from "zod";
 import type { FormFieldConfig, Resource } from "../../../types";
 import {
+  Button,
+  Group,
   NumberInput,
   Select,
   Stack,
@@ -13,11 +15,20 @@ import { zod4Resolver } from "mantine-form-zod-resolver";
 
 import { useForm, type UseFormReturnType } from "@mantine/form";
 import { DatePickerInput } from "@mantine/dates";
+
 interface ResourceFormProps {
+  mode: "create" | "edit";
   resource: Resource;
+  onCancel?: () => void;
+  onSubmit: (values: any) => Promise<any>;
 }
 
-export function ResourceForm({ resource }: ResourceFormProps) {
+export function ResourceForm({
+  mode,
+  resource,
+  onCancel,
+  onSubmit,
+}: ResourceFormProps) {
   const validationSchema = useMemo(() => buildFormSchema(resource), [resource]);
   const initialValues = useMemo(() => buildInitialValues(resource), [resource]);
 
@@ -27,13 +38,34 @@ export function ResourceForm({ resource }: ResourceFormProps) {
     validateInputOnBlur: true,
     validateInputOnChange: true,
   });
-  
+
+  const isLoading = form.submitting;
+
   return (
-    <Stack>
-      {Object.entries(resource.config.form.fields).map(([key, field]) => (
-        <Fragment key={key}>{renderFormFields({ key, form, field })}</Fragment>
-      ))}
-    </Stack>
+    <form onSubmit={form.onSubmit(onSubmit)} noValidate>
+      <Stack>
+        {Object.entries(resource.config.form.fields).map(([key, field]) => (
+          <Fragment key={key}>
+            {renderFormFields({ key, form, field })}
+          </Fragment>
+        ))}
+
+        <Group justify="flex-end">
+          {onCancel && (
+            <Button color="red" onClick={onCancel} disabled={isLoading}>
+              Bekor qilish
+            </Button>
+          )}
+          <Button
+            type="submit"
+            loading={isLoading}
+            disabled={!form.isDirty() || !form.isValid()}
+          >
+            {mode === "create" ? "Yaratish" : "Saqlash"}
+          </Button>
+        </Group>
+      </Stack>
+    </form>
   );
 }
 
@@ -47,12 +79,12 @@ function renderFormFields({
   field: FormFieldConfig;
 }) {
   const commonProps = {
-    ...form.getInputProps(key),
     key: form.key(key),
     label: field.label,
     description: field.description,
     placeholder: field.placeholder ?? field.label,
     withAsterisk: isFieldRequired(field),
+    ...form.getInputProps(key),
   };
 
   switch (field.type) {
