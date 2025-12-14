@@ -1,16 +1,17 @@
 import {
   ActionIcon,
+  Box,
   Button,
   Flex,
   Group,
   Loader,
   Modal,
-  Skeleton,
+  Stack,
   Text,
   Tooltip,
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconAlertTriangle, IconEdit, IconTrash } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import { parseAsInteger, useQueryStates } from "nuqs";
@@ -27,7 +28,6 @@ interface ResourceListProps {
   resource: Resource;
 }
 
-// Action cell komponenti
 function ActionCell({
   item,
   resource,
@@ -41,14 +41,12 @@ function ActionCell({
   const queryClient = useQueryClient();
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  // ID ni topish
   const itemId = item.id || item._id || String(item[Object.keys(item)[0]]);
 
   const { mutateAsync: deleteItem, isPending: isDeleting } = useDelete({
     resource,
     id: itemId,
     onSuccess: () => {
-      // List va single query'larni invalidate qilish
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY, resource.key, "list"],
       });
@@ -101,25 +99,61 @@ function ActionCell({
 
       <Modal
         opened={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        title="O'chirishni tasdiqlash"
+        onClose={() => !isDeleting && setDeleteModalOpen(false)}
+        title={
+          <Group gap="xs">
+            <IconAlertTriangle size={20} color="var(--mantine-color-red-6)" />
+            <Text fw={600} size="lg">
+              O'chirishni tasdiqlash
+            </Text>
+          </Group>
+        }
         centered
+        closeOnClickOutside={!isDeleting}
+        closeOnEscape={!isDeleting}
+        withCloseButton={!isDeleting}
       >
-        <Text mb="md">
-          Haqiqatan ham "{resource.config.label}" ni o'chirmoqchimisiz?
-        </Text>
-        <Group justify="flex-end">
-          <Button
-            variant="subtle"
-            onClick={() => setDeleteModalOpen(false)}
-            disabled={isDeleting}
+        <Stack gap="md">
+          <Box
+            p="md"
+            style={{
+              borderRadius: "var(--mantine-radius-md)",
+              backgroundColor: "var(--mantine-color-red-0)",
+            }}
           >
-            Bekor qilish
-          </Button>
-          <Button color="red" onClick={handleDelete} loading={isDeleting}>
-            Ha, o'chirish
-          </Button>
-        </Group>
+            <Group gap="xs" align="flex-start">
+              <IconAlertTriangle
+                size={24}
+                color="var(--mantine-color-red-6)"
+                style={{ marginTop: 2 }}
+              />
+              <Text size="sm" c="dimmed" style={{ flex: 1 }}>
+                Bu amalni qaytarib bo'lmaydi. Haqiqatan ham{" "}
+                <Text span fw={600} c="red">
+                  "{resource.config.label}"
+                </Text>{" "}
+                ni o'chirmoqchimisiz?
+              </Text>
+            </Group>
+          </Box>
+
+          <Group justify="flex-end" gap="sm" mt="md">
+            <Button
+              onClick={() => setDeleteModalOpen(false)}
+              disabled={isDeleting}
+            >
+              Bekor qilish
+            </Button>
+            <Button
+              color="red"
+              onClick={handleDelete}
+              loading={isDeleting}
+              leftSection={<IconTrash size={16} />}
+            >
+              Ha, o'chirish
+            </Button>
+          </Group>
+        </Stack>
       </Modal>
     </>
   );
