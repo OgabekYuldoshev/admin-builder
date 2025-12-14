@@ -4,7 +4,7 @@ import {
 	IconHttpPost,
 	IconHttpPut,
 } from "@tabler/icons-react";
-import type { BaseEndpointConfig } from "../types/app-config";
+import type { EndpointsConfig } from "../types";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -33,7 +33,7 @@ export function getMethodIcon(method?: string) {
 }
 
 export function getEndpointMethod(
-	endpointConfig: BaseEndpointConfig,
+	endpointConfig: EndpointsConfig[keyof EndpointsConfig],
 ): HttpMethod {
 	return (endpointConfig.method || DEFAULT_METHOD) as HttpMethod;
 }
