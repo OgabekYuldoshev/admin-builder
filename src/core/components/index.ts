@@ -3,3 +3,7 @@ export * from "./data-table";
 export * from "./empty";
 export * from "./sidebar";
 export * from "./splash-screen";
+export * from "./protected-route";
+export * from "./auth-bootstrap";
+export * from "./logo";
+export * from "./profile-dropdown";

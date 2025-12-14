@@ -7,7 +7,7 @@ import {
 	useReactTable,
 } from "@tanstack/react-table";
 import { parseAsInteger, useQueryStates } from "nuqs";
-import { appConfig } from "../config";
+import { useAppState } from "../app-state";
 
 const defaultQueryOption = {
 	shallow: false,
@@ -20,12 +20,13 @@ export const useDataTable = <TData>({
 	initialState,
 	...props
 }: DataTableProps<TData>) => {
+	const { uiConfig } = useAppState();
 	const [queries, setQueries] = useQueryStates({
 		page: parseAsInteger
-			.withDefault(appConfig.list.defaultPage)
+			.withDefault(uiConfig.list.defaultPage)
 			.withOptions(defaultQueryOption),
 		limit: parseAsInteger
-			.withDefault(appConfig.list.defaultPageSize)
+			.withDefault(uiConfig.list.defaultPageSize)
 			.withOptions(defaultQueryOption),
 	});
 

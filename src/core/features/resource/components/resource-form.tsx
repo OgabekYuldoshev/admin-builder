@@ -36,8 +36,8 @@ export function ResourceForm({
 		if (initialData && mode === "edit") {
 			return buildInitialValuesFromData(resource, initialData);
 		}
-		buildInitialValues(resource);
-	}, [resource, initialData]);
+		return buildInitialValues(resource);
+	}, [resource, initialData, mode]);
 
 	const form = useForm({
 		initialValues,

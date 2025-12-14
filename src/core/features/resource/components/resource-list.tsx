@@ -18,8 +18,8 @@ import { parseAsInteger, useQueryStates } from "nuqs";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { DataTable } from "../../../components";
-import { appConfig } from "../../../config";
 import { useDataTable } from "../../../hooks";
+import { useAppState } from "../../../app-state";
 import type { Resource } from "../../../types";
 import { QUERY_KEY } from "../constants";
 import { useDelete, useList } from "../hooks";
@@ -161,9 +161,10 @@ function ActionCell({
 
 export function ResourceList({ resource }: ResourceListProps) {
 	const { resourceName = "" } = useParams<{ resourceName: string }>();
+	const { uiConfig } = useAppState();
 	const [queries] = useQueryStates({
-		page: parseAsInteger.withDefault(appConfig.list.defaultPage),
-		limit: parseAsInteger.withDefault(appConfig.list.defaultPageSize),
+		page: parseAsInteger.withDefault(uiConfig.list.defaultPage),
+		limit: parseAsInteger.withDefault(uiConfig.list.defaultPageSize),
 	});
 
 	const { items, total, limit, isFetched } = useList({

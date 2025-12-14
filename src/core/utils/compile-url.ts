@@ -7,7 +7,7 @@ export function compileUrl(
 	try {
 		return compile(url)(params);
 	} catch (error) {
-		console.log("Compining url with params", url, params, error);
+		console.error("Compiling url with params failed", url, params, error);
 
 		return Object.entries(params).reduce(
 			(acc, [key, value]) => acc.replace(`:${key}`, String(value)),

@@ -16,6 +16,11 @@ export type AuthConfig = {
 		url: string;
 		responseTransform?: (data: any) => any;
 	};
+	refresh?: {
+		url: string;
+		method?: "GET" | "POST";
+		responseTransform?: (data: any) => { accessToken: string; refreshToken?: string | null };
+	};
 };
 
 type BaseEndpointConfig = {
@@ -28,13 +33,13 @@ export type EndpointsConfig = {
 		responseTransform?: (data: any) => InternalListResponse;
 	};
 	create: BaseEndpointConfig & {
-		requestTransform?: (data: any) => InternalSingleResponse;
+		responseTransform?: (data: any) => InternalSingleResponse;
 	};
 	update: BaseEndpointConfig & {
-		requestTransform?: (data: any) => InternalSingleResponse;
+		responseTransform?: (data: any) => InternalSingleResponse;
 	};
 	delete: BaseEndpointConfig & {
-		requestTransform?: (data: any) => InternalSingleResponse;
+		responseTransform?: (data: any) => InternalSingleResponse;
 	};
 	single: BaseEndpointConfig & {
 		responseTransform?: (data: any) => InternalSingleResponse;
@@ -92,6 +97,16 @@ export type FormFieldConfig =
 
 export type FormFieldType = FormFieldConfig["type"];
 
+export type PaginationConfig = {
+	defaultPage: number;
+	defaultPageSize: number;
+	defaultPageSizes: number[];
+};
+
+export type UiConfig = {
+	list: PaginationConfig;
+};
+
 export type ResourceConfig = {
 	label: string;
 	description?: string;
@@ -108,4 +123,5 @@ export type AppConfig = {
 	http: HttpConfig;
 	auth: AuthConfig;
 	resources: Record<string, ResourceConfig>;
+	ui?: Partial<UiConfig>;
 };

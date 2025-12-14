@@ -13,10 +13,10 @@ import { useForm } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 import { IconLock, IconUser } from "@tabler/icons-react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 import { z } from "zod";
-import { useAppState } from "../app-state";
 import { zod4Resolver } from "mantine-form-zod-resolver";
+import { useAuth } from "../hooks";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -27,7 +27,8 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { httpClient, appConfig } = useAppState();
+  const location = useLocation();
+  const { status, login } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<LoginFormValues>({
@@ -43,34 +44,19 @@ export function LoginPage() {
   const handleSubmit = async (values: LoginFormValues) => {
     setLoading(true);
     try {
-      const response = await httpClient.post(appConfig.auth.login.url, {
-        username: values.username,
-        password: values.password,
-      });
-
-      const transformedData = appConfig.auth.login.responseTransform
-        ? appConfig.auth.login.responseTransform(response.data)
-        : response.data;
-
-      // Store tokens if available
-      if (transformedData.accessToken) {
-        localStorage.setItem("accessToken", transformedData.accessToken);
-      }
-      if (transformedData.refreshToken) {
-        localStorage.setItem("refreshToken", transformedData.refreshToken);
-      }
-
+      await login(values);
       notifications.show({
         title: "Success",
         message: "Login successful!",
         color: "green",
       });
-
-      navigate("/");
+      const redirectTo =
+        (location.state as { from?: string } | null)?.from || "/";
+      navigate(redirectTo, { replace: true });
     } catch (error: any) {
       const errorMessage =
-        error.response?.data?.message ||
-        error.message ||
+        error?.response?.data?.message ||
+        error?.message ||
         "Login failed. Please check your credentials.";
 
       notifications.show({
@@ -82,6 +68,10 @@ export function LoginPage() {
       setLoading(false);
     }
   };
+
+  if (status === "authenticated") {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <Flex justify="center" align="center" mih="100vh" bg="gray.1">

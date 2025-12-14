@@ -64,42 +64,42 @@ function buildResourceApi({
 			return data;
 		},
 		async create(values) {
-			const { url, method = "POST", requestTransform } = endpoints.create;
+			const { url, method = "POST", responseTransform } = endpoints.create;
 			const { data } = await httpClient.request({
 				url,
 				method,
 				data: values,
 			});
 
-			if (requestTransform) {
-				return requestTransform(data);
+			if (responseTransform) {
+				return responseTransform(data);
 			}
 
 			return data;
 		},
 		async update(id, values) {
-			const { url, method = "PUT", requestTransform } = endpoints.update;
+			const { url, method = "PUT", responseTransform } = endpoints.update;
 			const { data } = await httpClient.request({
 				url: compileUrl(url, { id }),
 				method,
 				data: values,
 			});
 
-			if (requestTransform) {
-				return requestTransform(data);
+			if (responseTransform) {
+				return responseTransform(data);
 			}
 
 			return data;
 		},
 		async delete(id) {
-			const { url, method = "DELETE", requestTransform } = endpoints.delete;
+			const { url, method = "DELETE", responseTransform } = endpoints.delete;
 			const { data } = await httpClient.request({
 				url: compileUrl(url, { id }),
 				method,
 			});
 
-			if (requestTransform) {
-				return requestTransform(data);
+			if (responseTransform) {
+				return responseTransform(data);
 			}
 
 			return data;

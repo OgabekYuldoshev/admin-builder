@@ -1,6 +1,6 @@
 import { Flex, Pagination, Select, Table } from "@mantine/core";
 import { flexRender, type Table as TanstackTable } from "@tanstack/react-table";
-import { appConfig } from "../../config";
+import { useAppState } from "../../app-state";
 import { Empty } from "../empty";
 import { getCommonPinningStyles } from "./get-common-pinning-styles";
 
@@ -9,6 +9,8 @@ export interface DataTableProps<TData> {
 }
 
 export function DataTable<TData>({ table }: DataTableProps<TData>) {
+	const { uiConfig } = useAppState();
+
 	return (
 		<>
 			<Table.ScrollContainer minWidth={500} pb={0}>
@@ -77,7 +79,7 @@ export function DataTable<TData>({ table }: DataTableProps<TData>) {
 						w={80}
 						value={`${table.getState().pagination.pageSize}`}
 						placeholder="Sahifa hajmi"
-						data={appConfig.list.defaultPageSizes.map((s) => s.toString())}
+						data={uiConfig.list.defaultPageSizes.map((s) => s.toString())}
 						onChange={(value) => table.setPageSize(Number(value))}
 					/>
 				</Flex>

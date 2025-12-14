@@ -3,6 +3,7 @@ import "./assets/styles/main.css";
 import { useRef } from "react";
 import { RouterProvider } from "react-router";
 import { AppStateProvider, createAppState } from "./app-state";
+import { AuthBootstrap } from "./components";
 import { withProviders } from "./providers";
 import type { AppConfig } from "./types";
 
@@ -15,7 +16,9 @@ function InternalApp({ config }: AppProps) {
 
 	return (
 		<AppStateProvider value={appStateRef.current}>
-			<RouterProvider router={appStateRef.current.appRouter.router} />
+			<AuthBootstrap>
+				<RouterProvider router={appStateRef.current.appRouter.router} />
+			</AuthBootstrap>
 		</AppStateProvider>
 	);
 }
