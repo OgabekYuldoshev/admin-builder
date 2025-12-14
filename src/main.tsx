@@ -1,7 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import z from "zod";
-import { App, type AppConfig } from "./core";
+import { App, type AppConfig } from "./core2";
 
 const loginResponseValidationSchema = z.object({
   accessToken: z.string(),
@@ -9,7 +9,7 @@ const loginResponseValidationSchema = z.object({
 });
 
 const appConfig: AppConfig = {
-  api: {
+  http: {
     baseURL: "https://dummyjson.com",
     headers: {
       "Content-Type": "application/json",
@@ -28,9 +28,7 @@ const appConfig: AppConfig = {
   },
   resources: {
     posts: {
-      metaData: {
-        label: "Posts",
-      },
+      label: "Posts",
       endpoints: {
         list: {
           url: "/posts",
@@ -95,9 +93,7 @@ const appConfig: AppConfig = {
       },
     },
     comments: {
-      metaData: {
-        label: "Comments",
-      },
+      label: "Comments",
       endpoints: {
         list: {
           url: "/comments",
