@@ -51,6 +51,11 @@ const appConfig: AppConfig = {
         },
         single: {
           url: "/posts/:id",
+          responseTransform: (data) => {
+            return {
+              item: data,
+            };
+          },
         },
       },
       list: {

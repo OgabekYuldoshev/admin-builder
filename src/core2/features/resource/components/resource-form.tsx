@@ -15,12 +15,14 @@ import { zod4Resolver } from "mantine-form-zod-resolver";
 
 import { useForm, type UseFormReturnType } from "@mantine/form";
 import { DatePickerInput } from "@mantine/dates";
+import { useDidUpdate } from "@mantine/hooks";
 
 interface ResourceFormProps {
   mode: "create" | "edit";
   resource: Resource;
   onCancel?: () => void;
   onSubmit: (values: any) => Promise<any>;
+  initialData?: Record<string, any>;
 }
 
 export function ResourceForm({
@@ -28,9 +30,15 @@ export function ResourceForm({
   resource,
   onCancel,
   onSubmit,
+  initialData,
 }: ResourceFormProps) {
   const validationSchema = useMemo(() => buildFormSchema(resource), [resource]);
-  const initialValues = useMemo(() => buildInitialValues(resource), [resource]);
+  const initialValues = useMemo(() => {
+    if (initialData && mode === "edit") {
+      return buildInitialValuesFromData(resource, initialData);
+    }
+    buildInitialValues(resource);
+  }, [resource, initialData]);
 
   const form = useForm({
     initialValues,
@@ -38,6 +46,14 @@ export function ResourceForm({
     validateInputOnBlur: true,
     validateInputOnChange: true,
   });
+
+  useDidUpdate(() => {
+    if (initialData && mode === "edit" && form.isDirty()) {
+      const values = buildInitialValuesFromData(resource, initialData);
+      form.setValues(values);
+      form.resetDirty();
+    }
+  }, [initialData, mode, resource, form]);
 
   const isLoading = form.submitting;
 
@@ -157,4 +173,20 @@ export function isFieldRequired(field: FormFieldConfig): boolean {
   fieldRequiredCache.set(field, isRequired);
 
   return isRequired;
+}
+
+function buildInitialValuesFromData(
+  resource: Resource,
+  data: Record<string, any>
+) {
+  const initialValues = {} as Record<string, any>;
+
+  for (const [key, field] of Object.entries(resource.config.form.fields)) {
+    initialValues[key] =
+      data[key] !== undefined && data[key] !== null
+        ? data[key]
+        : field.defaultValue ?? getInitialValueByType(field);
+  }
+
+  return initialValues;
 }

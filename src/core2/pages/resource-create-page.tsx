@@ -32,7 +32,12 @@ export function ResourceCreatePage() {
         <Title order={3}>{resource.config.label} yaratish</Title>
       </Flex>
       <Space h="md" />
-      <ResourceForm mode="create" resource={resource} onSubmit={mutateAsync} />
+      <ResourceForm
+        mode="create"
+        resource={resource}
+        onSubmit={mutateAsync}
+        onCancel={() => navigate(-1)}
+      />
     </Container>
   );
 }

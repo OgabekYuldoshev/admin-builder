@@ -14,7 +14,7 @@ interface UseSingleProps extends CustomQueryOptions<InternalSingleResponse> {
 
 export function useSingle({ resource, id, ...options }: UseSingleProps) {
   const initialData = {
-    item: {},
+    item: null,
   } as InternalSingleResponse;
 
   const { data = initialData, ...args } = useQuery({
@@ -25,7 +25,9 @@ export function useSingle({ resource, id, ...options }: UseSingleProps) {
         data
       );
       if (!parsed.success) {
-        throw new Error(parsed.error.issues.map((issue) => issue.message).join(", "));
+        throw new Error(
+          parsed.error.issues.map((issue) => issue.message).join(", ")
+        );
       }
       return parsed.data;
     },
