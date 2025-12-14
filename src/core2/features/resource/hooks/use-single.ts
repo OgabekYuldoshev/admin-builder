@@ -9,7 +9,7 @@ import { resourceSingleResponseValidationSchema } from "../validations";
 
 interface UseSingleProps extends CustomQueryOptions<InternalSingleResponse> {
   resource: Resource;
-  id: any;
+  id: string;
 }
 
 export function useSingle({ resource, id, ...options }: UseSingleProps) {
@@ -20,9 +20,14 @@ export function useSingle({ resource, id, ...options }: UseSingleProps) {
   const { data = initialData, ...args } = useQuery({
     queryKey: [QUERY_KEY, resource.key, "single", id],
     queryFn: async () => {
-      const data = await resource.api.single({ id });
-      const validatedData = resourceSingleResponseValidationSchema.parse(data);
-      return validatedData;
+      const data = await resource.api.single(id);
+      const parsed = await resourceSingleResponseValidationSchema.safeParse(
+        data
+      );
+      if (!parsed.success) {
+        throw new Error(parsed.error.issues.map((issue) => issue.message).join(", "));
+      }
+      return parsed.data;
     },
     initialData,
     placeholderData: keepPreviousData,

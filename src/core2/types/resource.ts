@@ -11,11 +11,8 @@ export interface Resource {
   api: {
     list(params: ListParams): Promise<InternalListResponse>;
     create<TValues>(values: TValues): Promise<InternalSingleResponse>;
-    update<TId, TValues>(
-      id: TId,
-      values: TValues
-    ): Promise<InternalSingleResponse>;
-    delete<TId>(id: TId): Promise<InternalSingleResponse>;
-    single<TId>(id: TId): Promise<InternalSingleResponse>;
+    update<TValues>(id: string, values: TValues): Promise<any>;
+    delete(id: string): Promise<any>;
+    single(id: string): Promise<InternalSingleResponse>;
   };
 }

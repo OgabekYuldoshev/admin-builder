@@ -9,16 +9,19 @@ import { resourceSingleResponseValidationSchema } from "../validations";
 
 interface UseDeleteProps extends CustomMutationOptions<InternalSingleResponse> {
   resource: Resource;
-  id: any;
+  id: string;
 }
 
 export function useDelete({ resource, id, ...options }: UseDeleteProps) {
   return useMutation({
     mutationKey: [QUERY_KEY, resource.key, "delete", id],
     mutationFn: async () => {
-      const data = await resource.api.delete({ id });
-      const validatedData = resourceSingleResponseValidationSchema.parse(data);
-      return validatedData;
+      const data = await resource.api.delete(id);
+      const parsed = await resourceSingleResponseValidationSchema.safeParse(data);
+      if(!parsed.success) {
+        throw new Error(parsed.error.issues.map((issue) => issue.message).join(", "));
+      }
+      return parsed.data;
     },
     ...options,
   });

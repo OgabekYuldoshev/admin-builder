@@ -12,8 +12,11 @@ export function useCreate({ resource, ...options }: UseCreateProps) {
     mutationKey: [QUERY_KEY, resource.key, "create"],
     mutationFn: async <TValues>(values: TValues) => {
       const data = await resource.api.create<TValues>(values);
-      const validatedData = resourceSingleResponseValidationSchema.parse(data);
-      return validatedData;
+      const parsed = await resourceSingleResponseValidationSchema.safeParse(data);
+      if(!parsed.success) {
+        throw new Error(parsed.error.issues.map((issue) => issue.message).join(", "));
+      }
+      return parsed.data;
     },
     ...options,
   });

@@ -30,8 +30,13 @@ export function useList({ resource, params, ...options }: UseListProps) {
     queryKey: [QUERY_KEY, resource.key, "list", defaultParams],
     queryFn: async () => {
       const data = await resource.api.list(defaultParams);
-      const validatedData = resourceListResponseValidationSchema.parse(data);
-      return validatedData;
+      const parsed = await resourceListResponseValidationSchema.safeParse(data);
+      if (!parsed.success) {
+        throw new Error(
+          parsed.error.issues.map((issue) => issue.message).join(", ")
+        );
+      }
+      return parsed.data;
     },
     initialData,
     placeholderData: keepPreviousData,

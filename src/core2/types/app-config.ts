@@ -1,5 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import type { ZodType } from "zod";
+import type { InternalListResponse, InternalSingleResponse } from "./utils";
 
 export type HttpConfig = {
   baseURL: string;
@@ -24,19 +25,19 @@ type BaseEndpointConfig = {
 
 export type EndpointsConfig = {
   list: BaseEndpointConfig & {
-    responseTransform?: (data: any) => any;
+    responseTransform?: (data: any) => InternalListResponse;
   };
   create: BaseEndpointConfig & {
-    requestTransform?: (data: any) => any;
+    requestTransform?: (data: any) => InternalSingleResponse;
   };
   update: BaseEndpointConfig & {
-    requestTransform?: (data: any) => any;
+    requestTransform?: (data: any) => InternalSingleResponse;
   };
   delete: BaseEndpointConfig & {
-    requestTransform?: (data: any) => any;
+    requestTransform?: (data: any) => InternalSingleResponse;
   };
   single: BaseEndpointConfig & {
-    responseTransform?: (data: any) => any;
+    responseTransform?: (data: any) => InternalSingleResponse;
   };
 };
 

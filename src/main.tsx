@@ -116,6 +116,11 @@ const appConfig: AppConfig = {
         },
         single: {
           url: "/comments/:id",
+          responseTransform: (data) => {
+            return {
+              item: data,
+            };
+          },
         },
       },
       list: {

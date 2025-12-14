@@ -9,7 +9,7 @@ import { resourceSingleResponseValidationSchema } from "../validations";
 
 interface UseUpdateProps extends CustomMutationOptions<InternalSingleResponse> {
   resource: Resource;
-  id: any;
+  id: string;
 }
 
 export function useUpdate({ resource, id, ...options }: UseUpdateProps) {
@@ -17,8 +17,15 @@ export function useUpdate({ resource, id, ...options }: UseUpdateProps) {
     mutationKey: [QUERY_KEY, resource.key, "update", id],
     mutationFn: async <TValues>(values: TValues) => {
       const data = await resource.api.update(id, values);
-      const validatedData = resourceSingleResponseValidationSchema.parse(data);
-      return validatedData;
+      const parsed = await resourceSingleResponseValidationSchema.safeParse(
+        data
+      );
+      if (!parsed.success) {
+        throw new Error(
+          parsed.error.issues.map((issue) => issue.message).join(", ")
+        );
+      }
+      return parsed.data;
     },
     ...options,
   });

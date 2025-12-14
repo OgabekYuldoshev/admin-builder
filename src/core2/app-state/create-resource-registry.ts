@@ -114,6 +114,8 @@ function buildResourceApi({
       if (responseTransform) {
         return responseTransform(data);
       }
+
+      return data;
     },
   };
 }
