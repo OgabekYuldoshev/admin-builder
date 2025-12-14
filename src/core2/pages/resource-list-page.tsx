@@ -15,16 +15,16 @@ import { IconPlus } from "@tabler/icons-react";
 export function ResourceListPage() {
   const { resourceName = "" } = useParams<{ resourceName: string }>();
 
-  const { config } = useResource(resourceName);
+  const resource = useResource(resourceName);
 
   return (
     <Container fluid>
       <Flex justify="space-between" align="center">
         <Stack gap={2}>
-          <Title order={3}>{config.label}</Title>
-          {config.description && (
+          <Title order={3}>{resource.config.label}</Title>
+          {resource.config.description && (
             <Text size="sm" c="dimmed">
-              {config.description}
+              {resource.config.description}
             </Text>
           )}
         </Stack>
@@ -39,7 +39,7 @@ export function ResourceListPage() {
         </Group>
       </Flex>
       <Space h="md" />
-      <ResourceList resourceName={resourceName} />
+      <ResourceList resource={resource} />
     </Container>
   );
 }

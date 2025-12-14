@@ -89,6 +89,8 @@ export type FormFieldConfig =
   | SelectField
   | SwitchField;
 
+export type FormFieldType = FormFieldConfig["type"];
+
 export type ResourceConfig = {
   label: string;
   description?: string;

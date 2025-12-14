@@ -1,16 +1,15 @@
 import { parseAsInteger, useQueryStates } from "nuqs";
 import { DataTable } from "../../../components";
 import { useDataTable } from "../../../hooks";
-import { useList, useResource } from "../hooks";
+import { useList } from "../hooks";
 import { appConfig } from "../../../config";
 import { Skeleton } from "@mantine/core";
+import type { Resource } from "../../../types";
 
 interface ResourceListProps {
-  resourceName: string;
+  resource: Resource;
 }
-export function ResourceList({ resourceName }: ResourceListProps) {
-  const resource = useResource(resourceName);
-
+export function ResourceList({ resource }: ResourceListProps) {
   const [queries] = useQueryStates({
     page: parseAsInteger.withDefault(appConfig.list.defaultPage),
     limit: parseAsInteger.withDefault(appConfig.list.defaultPageSize),
